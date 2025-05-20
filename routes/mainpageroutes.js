@@ -66,49 +66,14 @@ router.post('/upload', upload.array('image', 10), async (req, res) => {
   }
 });
 
-
-
-
-
-
-// router.post('/upload', upload.single('image'), async (req, res) => {
-//   try {
-//     const { title, description } = req.body;
-//     let imageUrl = '';
-
-//     if (req.file) {
-//       const result = await uploadToCloudinary(req.file.buffer);
-//       imageUrl = result.secure_url;
-//     }
-
-//     // Check if Main Page content already exists
-//     const existingContent = await Content.findOne({ section: 'Main Page' });
-
-//     if (existingContent) {
-//       // If content exists, update it
-//       existingContent.title = title;
-//       existingContent.description = description;
-//       if (imageUrl) existingContent.image = imageUrl;
-
-//       const updatedContent = await existingContent.save();
-//       return res.status(200).json({ message: 'Main Page content updated', content: updatedContent });
-//     } else {
-//       // If not, create new content
-//       const newContent = new Content({
-//         section: 'Main Page',
-//         title,
-//         description,
-//         image: imageUrl,
-//       });
-
-//       const savedContent = await newContent.save();
-//       return res.status(201).json({ message: 'Main Page content created', content: savedContent });
-//     }
-//   } catch (err) {
-//     console.error('Upload error:', err);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// });
-
+//GET mainpage 
+router.get('/', async (req, res) => {
+  try {
+    const contents = await Content.find({ section: 'Main Page' });
+    res.status(200).json(contents);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch content' });
+  }
+});
 
 module.exports = router;

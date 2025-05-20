@@ -48,4 +48,17 @@ router.post('/upload', upload.none(), async (req, res) => {
   }
 });
 
+
+// GET: Fetch Teach / Learn Features
+router.get('/', async (req, res) => {
+  try {
+    const contents = await Content.find({ section: 'Teach / Learn Features' });
+    res.status(200).json(contents);
+  } catch (err) {
+    console.error('Fetch error:', err);
+    res.status(500).json({ error: 'Failed to fetch content' });
+  }
+});
+
+
 module.exports = router;

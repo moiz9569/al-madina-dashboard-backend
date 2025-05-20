@@ -92,6 +92,37 @@ router.post('/upload', upload.single('Image'), async (req, res) => {
   }
 });
 
+
+// GET API for teaching methodology
+router.get('/', async (req, res) => {
+  try {
+    const data = await Content.findOne({ section: 'Teaching Methodology' });
+
+    if (!data) {
+      return res.status(404).json({ error: 'Content not found' });
+    }
+
+    // Extract method1 through method4
+    const methods = [];
+    ['method1', 'method2', 'method3', 'method4'].forEach((key) => {
+      if (data[key]) methods.push(data[key]);
+    });
+
+    const response = {
+      sidebar: data.sidebar || '',
+      timetable: data.timetable || '',
+      methods,
+      image: Array.isArray(data.image) ? data.image[0] : data.image || null,
+    };
+
+    res.status(200).json(response);
+  } catch (err) {
+    console.error('Fetch error:', err);
+    res.status(500).json({ error: 'Failed to fetch content' });
+  }
+});
+
+
 module.exports = router;
 
 

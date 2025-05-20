@@ -66,4 +66,32 @@ router.post('/upload', upload.none(), async (req, res) => {
   }
 });
 
+
+// GET /api/features
+router.get('/', async (req, res) => {
+  try {
+    const content = await Content.findOne({ section: 'features' });
+
+    if (!content) {
+      return res.status(404).json({ error: 'No features found' });
+    }
+
+    const features = [
+      content.feature1,
+      content.feature2,
+      content.feature3,
+      content.feature4,
+      content.feature5,
+      content.feature6,
+      content.feature7,
+    ].filter(f => f?.title || f?.desc); // Remove undefined/null/empty features
+
+    res.status(200).json(features);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch features' });
+  }
+});
+
+
+
 module.exports = router;

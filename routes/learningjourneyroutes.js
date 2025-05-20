@@ -68,6 +68,16 @@ router.post('/upload', upload.array('image', 10), async (req, res) => {
   }
 });
 
+//GET Learning Journey
+router.get('/', async (req, res) => {
+  try {
+    const contents = await Content.find({ section: 'Learning Journey' });
+    res.status(200).json(contents);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch content' });
+  }
+});
+
 module.exports = router;
 
 

@@ -68,5 +68,17 @@ router.post('/upload', upload.array('image', 10), async (req, res) => {
   }
 });
 
+//GET Senior School
+router.get('/', async (req, res) => {
+  try {
+    const content = await Content.findOne({ section: 'Senior School' });
+    if (!content) return res.status(404).json({ message: 'Senior School content not found' });
+    res.status(200).json(content);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch Senior School content' });
+  }
+});
+
+
 
 module.exports = router;
